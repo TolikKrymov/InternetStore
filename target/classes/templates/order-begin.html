@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+    <title>Заказ</title>
+    <link rel="stylesheet" th:href="@{/css/forall.css}"/>
+    <link rel="stylesheet" th:href="@{/css/order.css}"/>
+    <script>
+        function getCounter(element) {
+        	return element.parentElement.getElementsByClassName("counter")[0];
+        }
+        function getValue(element) {
+        	return parseInt(element.innerHTML);
+        }
+        function getMaxValue(element) {
+        	return parseInt(element.parentElement.getElementsByClassName("max-counter")[0].innerHTML);
+        }
+        function add(element) {
+        	var counter = getCounter(element);
+            const value = getValue(counter);
+            const maxValue = getMaxValue(element);
+            if (value < maxValue) {
+                counter.innerHTML = value + 1;
+                updatePrice();
+            }
+        }
+        function sub(element) {
+        	var counter = getCounter(element);
+            const value = getValue(counter);
+            const maxValue = getMaxValue(element);
+            if (value > 1) {
+            	counter.innerHTML = value - 1;
+                updatePrice();
+            }
+        }
+        function updatePrice() {
+            var products = document.getElementsByClassName("content")[0].getElementsByClassName("product");
+            var totalPrice = 0;
+            var counts = [];
+            for (let product of products) {
+                var price = product.getElementsByClassName("price")[0];
+                var counter = product.getElementsByClassName("counter")[0];
+                var count = parseInt(counter.innerHTML);
+                totalPrice += parseInt(price.innerHTML) * count;
+                counts.push(count);
+            }
+            document.getElementById("total_price").innerHTML = totalPrice;
+            var next = document.getElementById("next");
+            var indexOfParams = next.href.indexOf('?');
+
+            if (indexOfParams !== -1) {
+                next.href = next.href.substring(0, indexOfParams);
+            }
+            next.href += '?counts=' + counts.join('+');
+        }
+    </script>
+</head>
+<body>
+    <div class="error-message" th:if="${has_error}">
+        Некоторые продукты более недоступны и удалены из корзины
+        <span onclick="this.parentElement.style='display:none'">X</span>
+    </div>
+    <div class="panel menu">
+        <div class="menu-element">
+            <h1>Меню</h1>
+        </div>
+        <hr/>
+        <div class="menu-element">
+            <a th:href="@{/}">На главную</a>
+        </div>
+        <div class="menu-element">
+            <a th:href="@{/store}">Каталог</a>
+        </div>
+    </div>
+    <div class="panel content">
+        <div class="product content-part" th:each="product: ${products}">
+            <span th:text="${product.name}"/><br/>
+            Цена: <span class="price" th:text="${product.price}"/><br/>
+            Количество:
+            <button onclick="sub(this)">-</button>
+            <span class="counter">1</span>
+            <button onclick="add(this)">+</button>
+            из <span class="max-counter" th:text="${product.count}" />
+        </div>
+        <div class="content-part">
+            <p>Общая стоимость: <span id="total_price"></span></p>
+            <a id="next" th:href="@{/order/counts}">Перейти к заполнению информации</a>
+            <script>updatePrice();</script>
+        </div>
+    </div>
+</body>
+</html>

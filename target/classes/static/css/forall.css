@@ -1,0 +1,41 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif
+}
+hr {
+    border: none;
+    color: black;
+    background-color: black;
+    height: 2px
+}
+a {
+    text-decoration: none;
+    color: #007fff
+}
+a:hover {
+    color: #002f5f
+}
+.panel {
+    display: inline-block;
+    vertical-align: top;
+    border: solid black 2px;
+    border-radius: 4px;
+    margin: 2px
+}
+.menu {
+    width: calc(15% - 8px)
+}
+.content {
+    width: calc(65% - 8px)
+}
+.menu-element {
+    text-align: center;
+    padding: 2px
+}
+.content-part {
+    padding: 5px;
+}
+button {
+    padding: 2px
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Каталог</title>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/forall.css}"/>
+    <link rel="stylesheet" th:href="@{/css/store.css}"/>
+</head>
+<body>
+    <div class="panel menu">
+        <div class="menu-element">
+            <h1>Меню</h1>
+        </div>
+        <hr/>
+        <div class="menu-element">
+            <a th:href="@{/}">На главную</a>
+        </div>
+        <hr/>
+        <div class="menu-element">
+            <h1>Категории</h1>
+        </div>
+        <hr/>
+        <div th:each="product_type: ${product_types}" class="menu-element">
+            <a th:href="@{/store(id_type = ${product_type.id})}" th:text="${product_type.name}"/>
+        </div>
+        <hr/>
+        <div class="menu-element">
+            <a th:href="@{/store}">Без категории</a>
+        </div>
+    </div>
+    <div class="panel content content-part">
+        <h1>Каталог</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Цена</th>
+                    <th>Количество</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="product: ${products}">
+                    <td><a th:href="@{/product(id=${product.id})}" th:text="${product.name}"/></td>
+                    <td th:text="${product.price}"/>
+                    <td></center><span th:text="${product.count}"/> шт.</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="buttons">
+            Страницы:
+            <div class="button" style="display: inline-block; margin: 0 2px 0 2px" th:each="page: ${pages}">
+                <a th:href="@{/store(page=${page}__${id_type}__)}" th:text="${page}"/>
+            </div>
+        </div>
+    </div>
+    <div class="panel menu">
+        <div class="menu-element">
+            <h1>Корзина</h1>
+        </div>
+        <hr/>
+        <div class="menu-element" th:each="product: ${product_basket}">
+            <a th:href="@{/product(id=${product.id})}" th:text="${product.name}"/>
+        </div>
+        <hr/>
+        <div class="menu-element">
+            <a th:href="@{/order/begin}">Оформить заказ</a>
+        </div>
+    </div>
+</body>
+</html>

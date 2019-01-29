@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Интернет-магазин</title>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/forall.css}"/>
+</head>
+<body>
+    <div class="panel menu">
+        Добро пожаловать в интернет-магазин
+    </div>
+    <div class="panel content content-part">
+        <p>Чтобы перейти к выбору товаров перейдите к <a th:href="@{/store}">каталогу</a></p>
+        <p>Чтобы добавить новый товар перейдите на страницу <a th:href="@{/add/product}">добавления товара</a></p>
+        <p><a th:href="@{/orders}">Заказы</a></p>
+    </div>
+</body>
+</html>

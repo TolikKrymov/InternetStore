@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+    <title>Выбор доставки</title>
+    <link rel="stylesheet" th:href="@{/css/forall.css}"/>
+</head>
+<body>
+<div class="panel menu">
+    <div class="menu-element">
+        <h1>Меню</h1>
+    </div>
+    <hr/>
+    <div class="menu-element">
+        <a th:href="@{/}">На главную</a>
+    </div>
+    <div class="menu-element">
+        <a th:href="@{/store}">Каталог</a>
+    </div>
+</div>
+<div class="panel content">
+    <div class="content-part">
+        <form th:action="@{/order/complete}" th:object="${order}" method="post">
+            <p>Адрес</p>
+            <input type="text" th:field="*{address}"/>
+            <p>Фамилия, имя и отчество</p>
+            <input type="text" th:field="*{fio}"/>
+            <p>Телефон</p>
+            <input type="text" th:field="*{phone}"/>
+            <p>Электронная почта</p>
+            <input type="text" th:field="*{email}"/>
+            <p>Способ оплаты</p>
+            <select th:field="*{idPaymentType}">
+                <option th:each="payment: ${payments}" th:value="${payment.id}" th:text="${payment.name}"/>
+            </select>
+            <p>Способ доставки</p>
+            <select th:field="*{idDeliveryType}">
+                <option th:each="delivery: ${deliveries}" th:value="${delivery.id}" th:text="${delivery.name}"/>
+            </select>
+            <br/>
+            <input style="padding: 5px; margin-top: 5px" type="submit" value="Принять заказ"/>
+        </form>
+    </div>
+</div>
+</body>
+</html>

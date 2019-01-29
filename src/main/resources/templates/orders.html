@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+    <title>Заказы</title>
+    <link rel="stylesheet" th:href="@{/css/forall.css}"/>
+    <link rel="stylesheet" th:href="@{/css/order.css}"/>
+</head>
+<body>
+    <div class="error-message" th:if="${has_error}">
+        Некоторые продукты более недоступны и удалены из корзины
+        <span onclick="this.parentElement.style='display:none'">X</span>
+    </div>
+    <div class="panel menu">
+        <div class="menu-element">
+            <h1>Меню</h1>
+        </div>
+        <hr/>
+        <div class="menu-element">
+            <a th:href="@{/}">На главную</a>
+        </div>
+        <div class="menu-element">
+            <a th:href="@{/store}">Каталог</a>
+        </div>
+    </div>
+    <div class="panel content">
+        <div class="product content-part" th:each="order: ${orders}">
+            Адрес: <span th:text="${order.address}" /><br/>
+            ФИО: <span th:text="${order.fio}" /><br/>
+            Телефон: <span th:text="${order.phone}" /><br/>
+            Почта: <span th:text="${order.email}" /><br/>
+            Доставка: <span th:text="${order.delivery.name}" /><br/>
+            Оплата: <span th:text="${order.payment.name}" /><br/>
+            Полная стоимость: <span th:text="${order.price}" /> руб.<br/>
+            Товары:<br/>
+            <div class="content-part" th:each="productOrder: ${order.productsOrders}">
+                <span th:text="${productOrder.product.name}" /> <span th:text="${productOrder.count}"/> шт.
+            </div>
+        </div>
+        <div class="content-part"></div>
+    </div>
+</body>
+</html>

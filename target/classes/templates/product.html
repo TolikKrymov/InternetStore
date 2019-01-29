@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Информация о продукте</title>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+    <link th:href="@{/css/forall.css}" rel="stylesheet"/>
+    <link th:href="@{/css/product.css}" rel="stylesheet"/>
+</head>
+<body>
+    <div class="panel menu">
+        <div class="menu-element">
+            <h1>Меню</h1>
+        </div>
+        <hr/>
+        <div class="menu-element">
+            <a th:href="@{/}">На главную</a>
+        </div>
+        <div class="menu-element">
+            <a th:href="@{/store}">Каталог</a>
+        </div>
+    </div>
+    <div class="panel content">
+        <div class="content-part">
+            <h1>Информация о продукте</h1>
+        </div>
+        <hr/>
+        <div class="content-part">
+            <a th:href="@{/store}">Вернуться в к катологу</a>
+            <p>Название: <span th:text="${name}"/></p>
+            <p>Цена: <span th:text="${price}"/> руб.</p>
+            <p>Категория: <a th:href="@{/store(id_type=${id_type})}" th:text="${type}"/></p>
+            <p>Наличие: <span th:text="${count}"/></p>
+            <th:block th:switch="${added}">
+                <div th:case="disabled">Не возможно добавить в корзину, так как товар отсутствует</div>
+                <input th:case="'no'" type="button" value="Добавить в корзину" th:onclick="'location.href=\'' + @{/product(id=${id},action=add)} + '\''"/>
+                <div th:case="'yes'">
+                    <p style="font-weight: bold">Товар уже в корзине</p>
+                    <input type="button" value="Убрать из корзины" th:onclick="'location.href=\'' + @{/product(id=${id},action=remove)} + '\''"/>
+                </div>
+            </th:block>
+        </div>
+        <hr/>
+        <div class="content-part">
+            <h2>Характеристики: </h2>
+            <div th:each="parameter: ${parameters}">
+                <span th:text="${parameter.key}"/>: <span th:text="${parameter.value}"/>
+            </div>
+        </div>
+        <hr/>
+        <div class="content-part">
+            <a th:href="@{/edit/product(id=${id})}">Редактировать продукт</a>
+        </div>
+    </div>
+</body>
+</html>
