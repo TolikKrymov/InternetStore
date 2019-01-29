@@ -1,9 +1,6 @@
 package com.tolikkrymov.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tolikkrymov.ProductHelper;
+import com.tolikkrymov.Helper;
 import com.tolikkrymov.Resources;
 import com.tolikkrymov.entities.Product;
 import com.tolikkrymov.entities.ProductType;
@@ -21,7 +18,7 @@ public class EditProductController {
     String index(@RequestParam(name = "id") Integer id, Model model) throws IOException {
 
         Product product = Resources.productJdbcRepository.findById(id);
-        ProductHelper.changeInformationToUserView(product);
+        Helper.changeInformationToUserView(product);
 
         List<ProductType> productTypes = Resources.productTypeJdbcRepository.findAll();
 
@@ -35,11 +32,10 @@ public class EditProductController {
     String index(@ModelAttribute Product product) throws IOException {
 
         if (Resources.productJdbcRepository.findById(product.getId()) == null) {
-            System.out.println("[Ошибка] Не найден продукт с id = " + product.getId());
             return "error";
         }
 
-        ProductHelper.changeInformationToJSON(product);
+        Helper.changeInformationToJSON(product);
 
         Resources.productJdbcRepository.update(product);
 

@@ -37,7 +37,12 @@
                 <span th:text="${productOrder.product.name}" /> <span th:text="${productOrder.count}"/> шт.
             </div>
         </div>
-        <div class="content-part"></div>
+        <div class="buttons content-part">
+            Страницы:
+            <div class="button" th:each="page: ${pages}">
+                <a th:href="@{/orders(page=${page})}" th:text="${page}"/>
+            </div>
+        </div>
     </div>
 </body>
 </html>

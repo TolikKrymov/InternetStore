@@ -39,3 +39,11 @@ a:hover {
 button {
     padding: 2px
 }
+.button {
+    display: inline-block;
+    margin: 0 2px
+}
+input[type="submit"] {
+    padding: 5px;
+    margin-top: 5px
+}

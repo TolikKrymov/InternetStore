@@ -4,15 +4,15 @@ import java.util.List;
 
 public class Order {
 
-    private Long id;
+    private long id;
     private String address;
     private String fio;
     private String phone;
     private String email;
-    private Long idPaymentType;
-    private Long idDeliveryType;
-    private Long price;
-    private Boolean applied;
+    private long idPaymentType;
+    private long idDeliveryType;
+    private long price;
+    private boolean applied;
 
     private Payment payment;
     private Delivery delivery;
@@ -22,15 +22,15 @@ public class Order {
 
     }
 
-    public Order(Long id,
+    public Order(long id,
                  String address,
                  String fio,
                  String phone,
                  String email,
-                 Long idPaymentType,
-                 Long idDeliveryType,
-                 Long price,
-                 Boolean applied) {
+                 long idPaymentType,
+                 long idDeliveryType,
+                 long price,
+                 boolean applied) {
 
         this.id = id;
         this.address = address;
@@ -43,11 +43,11 @@ public class Order {
         this.applied = applied;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -83,35 +83,35 @@ public class Order {
         this.email = email;
     }
 
-    public Long getIdPaymentType() {
+    public long getIdPaymentType() {
         return idPaymentType;
     }
 
-    public void setIdPaymentType(Long idPaymentType) {
+    public void setIdPaymentType(long idPaymentType) {
         this.idPaymentType = idPaymentType;
     }
 
-    public Long getIdDeliveryType() {
+    public long getIdDeliveryType() {
         return idDeliveryType;
     }
 
-    public void setIdDeliveryType(Long idDeliveryType) {
+    public void setIdDeliveryType(long idDeliveryType) {
         this.idDeliveryType = idDeliveryType;
     }
 
-    public Long getPrice() {
+    public long getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(long price) {
         this.price = price;
     }
 
-    public Boolean getApplied() {
+    public boolean getApplied() {
         return applied;
     }
 
-    public void setApplied(Boolean applied) {
+    public void setApplied(boolean applied) {
         this.applied = applied;
     }
 

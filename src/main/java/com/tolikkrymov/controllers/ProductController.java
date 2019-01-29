@@ -1,8 +1,7 @@
 package com.tolikkrymov.controllers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tolikkrymov.ProductHelper;
+import com.tolikkrymov.Helper;
 import com.tolikkrymov.Resources;
 import com.tolikkrymov.entities.Product;
 import com.tolikkrymov.entities.ProductType;
@@ -27,7 +26,7 @@ public class ProductController {
                       HttpServletResponse response,
                       Model model) throws IOException {
 
-        List<Integer> productIds = ProductHelper.getProductList(request);
+        List<Integer> productIds = Helper.getProductList(request);
 
         Boolean hasInBasket = productIds.contains(id);
 
@@ -37,12 +36,7 @@ public class ProductController {
             } else if (action.equals("remove") && hasInBasket) {
                 productIds.remove(id);
             }
-            try {
-                ProductHelper.setProductList(productIds, response);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
+            Helper.setProductList(productIds, response);
 
             return "redirect:/product?id=" + id;
         }
@@ -50,7 +44,7 @@ public class ProductController {
         Product product = Resources.productJdbcRepository.findById(id);
         LinkedHashMap<String, String> map;
 
-        map = new ObjectMapper().readValue(
+        map = Resources.objectMapper.readValue(
                 product.getInformation(),
                 new TypeReference<LinkedHashMap<String, String>>() { });
 

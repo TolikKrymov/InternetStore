@@ -2,7 +2,6 @@ package com.tolikkrymov;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tolikkrymov.entities.Product;
 import org.thymeleaf.util.StringUtils;
 
@@ -16,13 +15,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class ProductHelper {
+public final class Helper {
 
     public static void changeInformationToUserView(Product product) throws IOException {
 
-        ObjectMapper objectMapper = new ObjectMapper();
         LinkedHashMap<String, String> map;
-        map = objectMapper.readValue(
+        map = Resources.objectMapper.readValue(
                 product.getInformation(),
                 new TypeReference<LinkedHashMap<String, String>>() { });
 
@@ -52,8 +50,7 @@ public final class ProductHelper {
             }
         }
 
-        ObjectMapper mapper = new ObjectMapper();
-        product.setInformation(mapper.writeValueAsString(map));
+        product.setInformation(Resources.objectMapper.writeValueAsString(map));
     }
 
     public static List<Integer> getListFromCookie(HttpServletRequest request,
@@ -67,7 +64,7 @@ public final class ProductHelper {
 
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(cookieName)) {
-                return new ObjectMapper().readValue(
+                return Resources.objectMapper.readValue(
                         fromBase64(cookie.getValue()),
                         new TypeReference<ArrayList<Integer>>() {});
             }
@@ -80,9 +77,7 @@ public final class ProductHelper {
                                        HttpServletResponse response,
                                        String cookieName) throws JsonProcessingException {
 
-        ObjectMapper mapper = new ObjectMapper();
-
-        Cookie cookie = new Cookie(cookieName, toBase64(mapper.writeValueAsString(list)));
+        Cookie cookie = new Cookie(cookieName, toBase64(Resources.objectMapper.writeValueAsString(list)));
         cookie.setMaxAge(24 * 60 * 60);
         cookie.setPath("/");
 
@@ -114,5 +109,26 @@ public final class ProductHelper {
 
     private static String fromBase64(String base64) {
         return new String(Base64.getDecoder().decode(base64.getBytes()));
+    }
+
+    public static int[] getPages(int currentPage, int lastPage) {
+
+        int left = Math.max(1, currentPage - 5);
+        int right = Math.min(lastPage, currentPage + 5);
+
+        int[] pages;
+        if (lastPage == right) {
+            pages = new int[right - left + 1];
+        }
+        else {
+            pages = new int[right - left + 2];
+            pages[pages.length - 1] = lastPage;
+        }
+
+        for (int i = 0; i < right - left + 1; i++) {
+            pages[i] = left + i;
+        }
+
+        return pages;
     }
 }

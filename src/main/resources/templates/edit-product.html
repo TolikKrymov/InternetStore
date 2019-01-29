@@ -3,25 +3,39 @@
 <head>
     <title>Редактирование продукта</title>
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/forall.css}"/>
 </head>
 <body>
-    <h1>Редактирование продукта</h1>
-    <a th:href="@{/store}">Вернуться в к катологу</a>
-    <form th:action="@{/edit/product}" th:object="${product}" method="post">
-        <input type="hidden" th:field="*{id}"/>
-        <p>Название:</p>
-        <input type="text" th:field="*{name}"/>
-        <p>Категория</p>
-        <select th:field="*{idType}">
-            <option th:each="type: ${types}" th:value="${type.id}" th:text="${type.name}"/>
-        </select>
-        <p>Цена:</p>
-        <input type="text" th:field="*{price}"/>
-        <p>Информация:</p>
-        <textarea th:field="*{information}" rows="10" cols="60"/>
-        <p>Количество на складе: </p>
-        <input type="text" th:field="*{count}"/>
-        <p><input type="submit" value="Сохранить"/></p>
-    </form>
+    <div class="panel menu">
+        <div class="menu-element">
+            <h1>Меню</h1>
+        </div>
+        <hr/>
+        <div class="menu-element">
+            <a th:href="@{/}">На главную</a>
+        </div>
+        <div class="menu-element">
+            <a th:href="@{/store}">Каталог</a>
+        </div>
+    </div>
+    <div class="panel content content-part">
+        <h1>Редактирование продукта</h1>
+        <form th:action="@{/edit/product}" th:object="${product}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+            <p>Название:</p>
+            <input type="text" th:field="*{name}"/>
+            <p>Категория</p>
+            <select th:field="*{idType}">
+                <option th:each="type: ${types}" th:value="${type.id}" th:text="${type.name}"/>
+            </select>
+            <p>Цена:</p>
+            <input type="text" th:field="*{price}"/>
+            <p>Информация:</p>
+            <textarea th:field="*{information}" rows="10" cols="60"/>
+            <p>Количество на складе: </p>
+            <input type="text" th:field="*{count}"/>
+            <p><input type="submit" value="Сохранить"/></p>
+        </form>
+    </div>
 </body>
 </html>

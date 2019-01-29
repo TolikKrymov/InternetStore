@@ -81,11 +81,26 @@ public class OrderJdbcRepository {
                 id);
     }
 
-    public List<Order> findLast20Orders() {
+    public List<Order> findOrdersByPage(int page, int ordersPerPage) {
+
+        int offset = (page - 1) * ordersPerPage;
 
         return jdbcTemplate.query(
-                "SELECT * FROM orders ORDER BY id DESC LIMIT 20 ",
-                new OrderRowMapper());
+                "SELECT * FROM orders ORDER BY id DESC  LIMIT ? OFFSET ? ",
+                new OrderRowMapper(),
+                ordersPerPage,
+                offset);
+    }
+
+    public int getPageCount(int ordersPerPage) {
+
+        Integer integer = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) AS order_count FROM orders",
+                Integer.class);
+
+        int totalOrders = (integer != null) ? integer : 0;
+
+        return (totalOrders + ordersPerPage - 1) / ordersPerPage;
     }
 
     public Long getNewId() {

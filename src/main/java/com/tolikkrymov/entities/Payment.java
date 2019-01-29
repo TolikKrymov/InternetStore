@@ -2,21 +2,21 @@ package com.tolikkrymov.entities;
 
 public class Payment {
 
-    private Long id;
+    private long id;
     private String name;
 
     public Payment() {}
 
-    public Payment(Long id, String name) {
+    public Payment(long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

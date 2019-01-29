@@ -48,7 +48,7 @@
         </table>
         <div class="buttons">
             Страницы:
-            <div class="button" style="display: inline-block; margin: 0 2px 0 2px" th:each="page: ${pages}">
+            <div class="button" th:each="page: ${pages}">
                 <a th:href="@{/store(page=${page}__${id_type}__)}" th:text="${page}"/>
             </div>
         </div>

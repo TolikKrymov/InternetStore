@@ -1,8 +1,6 @@
 package com.tolikkrymov.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tolikkrymov.ProductHelper;
+import com.tolikkrymov.Helper;
 import com.tolikkrymov.Resources;
 import com.tolikkrymov.entities.Product;
 import com.tolikkrymov.entities.ProductType;
@@ -41,7 +39,7 @@ public class AddProductController {
             return "error";
         }
 
-        ProductHelper.changeInformationToJSON(product);
+        Helper.changeInformationToJSON(product);
 
         Resources.productJdbcRepository.insert(product);
 

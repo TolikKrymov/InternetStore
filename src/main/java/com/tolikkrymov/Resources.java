@@ -1,5 +1,6 @@
 package com.tolikkrymov;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tolikkrymov.repositories.OrderJdbcRepository;
 import com.tolikkrymov.repositories.ProductJdbcRepository;
 import com.tolikkrymov.repositories.ProductTypeJdbcRepository;
@@ -18,15 +19,17 @@ public final class Resources {
 
     public static final OrderJdbcRepository orderJdbcRepository = new OrderJdbcRepository();
 
+    public static final ObjectMapper objectMapper = new ObjectMapper();
+
     public static JdbcTemplate getJdbcTemplate() {
 
         if (jdbcTemplate == null){
-            DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
-            driverManagerDataSource.setDriverClassName("org.h2.Driver");
-            driverManagerDataSource.setUrl("jdbc:h2:file:~/test");
-            driverManagerDataSource.setUsername("sa");
-            driverManagerDataSource.setPassword("");
-            jdbcTemplate = new JdbcTemplate(driverManagerDataSource);
+            DriverManagerDataSource dataSources = new DriverManagerDataSource();
+            dataSources.setDriverClassName("org.h2.Driver");
+            dataSources.setUrl("jdbc:h2:file:~/test");
+            dataSources.setUsername("sa");
+            dataSources.setPassword("");
+            jdbcTemplate = new JdbcTemplate(dataSources);
         }
 
         return jdbcTemplate;

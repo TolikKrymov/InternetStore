@@ -1,6 +1,6 @@
 package com.tolikkrymov.controllers;
 
-import com.tolikkrymov.ProductHelper;
+import com.tolikkrymov.Helper;
 import com.tolikkrymov.Resources;
 import com.tolikkrymov.entities.*;
 import org.springframework.stereotype.Controller;
@@ -33,11 +33,10 @@ public class OrderInfoController {
     @PostMapping("/order/complete")
     public String orderInfo(Order order,
                             HttpServletRequest request,
-                            HttpServletResponse response,
-                            Model model) throws IOException {
+                            HttpServletResponse response) throws IOException {
 
-        List<Integer> productIds = ProductHelper.getProductList(request);
-        List<Integer> counts = ProductHelper.getListFromCookie(request, "counts");
+        List<Integer> productIds = Helper.getProductList(request);
+        List<Integer> counts = Helper.getListFromCookie(request, "counts");
 
         List<Product> products = new ArrayList<>();
 
@@ -50,13 +49,11 @@ public class OrderInfoController {
         }
 
         Delivery delivery = Resources.orderJdbcRepository.findDeliveryById(order.getIdDeliveryType());
-
         if (delivery == null) {
             return "redirect:/order/begin";
         }
 
         Payment payment = Resources.orderJdbcRepository.findPaymentById(order.getIdPaymentType());
-
         if (payment == null) {
             return "redirect:/order/begin";
         }
@@ -81,8 +78,8 @@ public class OrderInfoController {
             Resources.orderJdbcRepository.insert(productOrder);
         }
 
-        ProductHelper.deleteCookie(response, "basket");
-        ProductHelper.deleteCookie(response, "counts");
+        Helper.deleteCookie(response, "basket");
+        Helper.deleteCookie(response, "counts");
 
         return "redirect:/orders";
     }

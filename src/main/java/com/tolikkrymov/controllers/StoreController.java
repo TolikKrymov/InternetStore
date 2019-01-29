@@ -1,6 +1,6 @@
 package com.tolikkrymov.controllers;
 
-import com.tolikkrymov.ProductHelper;
+import com.tolikkrymov.Helper;
 import com.tolikkrymov.Resources;
 import com.tolikkrymov.entities.Product;
 import com.tolikkrymov.entities.ProductType;
@@ -18,7 +18,7 @@ import java.util.Map;
 @Controller
 public class StoreController {
 
-    private final int defaultProductsPerPage = 2;
+    private final int productsPerPage = 2;
 
     @GetMapping("/store")
     String index(@RequestParam Map<String, String> params,
@@ -32,50 +32,29 @@ public class StoreController {
         List<Product> productsOnPage;
         int lastPage;
         if (s_id_type == null) {
-            productsOnPage = Resources.productJdbcRepository.findByPage(page, defaultProductsPerPage);
-            lastPage = Resources.productJdbcRepository.getPageCount(defaultProductsPerPage);
+            productsOnPage = Resources.productJdbcRepository.findByPage(page, productsPerPage);
+            lastPage = Resources.productJdbcRepository.getPageCount(productsPerPage);
         }
         else {
             long idType = Long.valueOf(s_id_type);
-            productsOnPage = Resources.productJdbcRepository.findByPageAndIdType(page, defaultProductsPerPage, idType);
-            lastPage = Resources.productJdbcRepository.getPageCountByIdType(defaultProductsPerPage, idType);
+            productsOnPage = Resources.productJdbcRepository.findByPageAndIdType(page, productsPerPage, idType);
+            lastPage = Resources.productJdbcRepository.getPageCountByIdType(productsPerPage, idType);
         }
 
         List<ProductType> productTypes = Resources.productTypeJdbcRepository.findAll();
 
-        List<Integer> productIds = ProductHelper.getProductList(request);
+        List<Integer> productIds = Helper.getProductList(request);
         List<Product> productsInBasket = new ArrayList<>();
         for (int productId : productIds) {
             productsInBasket.add(Resources.productJdbcRepository.findById(productId));
         }
 
         model.addAttribute("products", productsOnPage);
-        model.addAttribute("pages", getPages(page, lastPage));
+        model.addAttribute("pages", Helper.getPages(page, lastPage));
         model.addAttribute("id_type", s_id_type == null ? "" : ",id_type = " + s_id_type);
         model.addAttribute("product_types", productTypes);
         model.addAttribute("product_basket", productsInBasket);
 
         return "store";
-    }
-
-    private int[] getPages(int currentPage, int lastPage) {
-
-        int left = Math.max(1, currentPage - 5);
-        int right = Math.min(lastPage, currentPage + 5);
-
-        int[] pages;
-        if (lastPage == right) {
-            pages = new int[right - left + 1];
-        }
-        else {
-            pages = new int[right - left + 2];
-            pages[pages.length - 1] = lastPage;
-        }
-
-        for (int i = 0; i < right - left + 1; i++) {
-            pages[i] = left + i;
-        }
-
-        return pages;
     }
 }

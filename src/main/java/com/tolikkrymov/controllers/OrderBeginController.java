@@ -1,6 +1,6 @@
 package com.tolikkrymov.controllers;
 
-import com.tolikkrymov.ProductHelper;
+import com.tolikkrymov.Helper;
 import com.tolikkrymov.Resources;
 import com.tolikkrymov.entities.Product;
 import org.springframework.stereotype.Controller;
@@ -22,7 +22,7 @@ public class OrderBeginController {
                              HttpServletResponse response,
                              Model model) throws IOException {
 
-        List<Integer> productIds = ProductHelper.getProductList(request);
+        List<Integer> productIds = Helper.getProductList(request);
         List<Product> products = new ArrayList<>();
 
         List<Integer> removedItems = new ArrayList<>();
@@ -40,7 +40,7 @@ public class OrderBeginController {
             for (Integer removedItem : removedItems) {
                 productIds.remove(removedItem);
             }
-            ProductHelper.setProductList(productIds, response);
+            Helper.setProductList(productIds, response);
         }
 
         model.addAttribute("products", products);
@@ -55,7 +55,7 @@ public class OrderBeginController {
                                 HttpServletResponse response,
                                 Model model) throws IOException {
 
-        List<Integer> productIds = ProductHelper.getProductList(request);
+        List<Integer> productIds = Helper.getProductList(request);
         List<Product> products = new ArrayList<>();
 
         for (Integer productId : productIds) {
@@ -82,7 +82,7 @@ public class OrderBeginController {
             }
         }
 
-        ProductHelper.setListToCookie(iCounts, response, "counts");
+        Helper.setListToCookie(iCounts, response, "counts");
 
         return "redirect:/order/info";
     }
